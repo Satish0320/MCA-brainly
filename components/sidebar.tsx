@@ -1,9 +1,11 @@
 import { BrainIcon } from "../icons/brainicon";
 import { Twittericon } from "../icons/twittericon";
 import { Youtubeicon } from "../icons/youtubeicon";
-import { SidebarIcon } from "./sidebaritems";
+import Container from "./container";
+import { FilterPost, SidebarIcon } from "./sidebaritems";
 
 export function Sidebar() {
+  const {filterContents, loading, error} = FilterPost('youtube')
   return (
     <div className="h-screen bg-white shadow-lg w-60 fixed left-0 top-0 pl-6 pt-6">
       
@@ -17,6 +19,7 @@ export function Sidebar() {
         <SidebarIcon text="Twitter" icon={<Twittericon />} />
         <SidebarIcon text="YouTube" icon={<Youtubeicon />} />
       </div>
+      
     </div>
   );
 }

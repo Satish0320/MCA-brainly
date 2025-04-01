@@ -40,7 +40,7 @@ export function CreateModel({ open, onClose }: { open: boolean; onClose: () => v
         return;
       }
 
-      // alert("Content added successfully!");
+      alert("Content added successfully!");
       onClose();
     } catch (error) {
       console.error("Error adding content:", error);

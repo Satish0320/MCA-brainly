@@ -12,6 +12,7 @@ import { Shareicon } from "../../icons/shareicon";
 import { Sidebar } from "../../components/sidebar";
 import { UseContent } from "../../hooks/useContent";
 import axios from "axios";
+import Container from "@/components/container";
 
 // Define the session type based on what you're getting from getServerSession
 interface Session {
@@ -26,12 +27,12 @@ interface Session {
 export default function DashboardPage() {
   const [session, setSession] = useState<Session | null>(null); // Explicitly typing session state
   const [model, setModel] = useState(false);
-  const { content, loading, error } = UseContent();
-
+  const { content, loading, error} = UseContent();
+  
   // Fetch session data on component mount
   useEffect(() => {
     axios.get<Session>('/api/dashboard').then((response) => setSession(response.data))
-  }, []);
+  }, [model]);
 
   const handleShare = async () => {
     if (!session || !session.user) {
@@ -92,17 +93,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Content Cards Grid */}
-        <div className="flex flex-wrap space-x-4 pt-4 sm:space-x-0 sm:space-y-4 sm:grid sm:grid-cols-1 sm:gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {loading ? (
-            <p>Loading...</p>
-          ) : error ? (
-            <p>{error}</p>
-          ) : (
-            content.map(({ type, title, link }) => (
-              <Card key={title} type={type} link={link} title={title} />
-            ))
-          )}
-        </div>
+        <Container content={content} loading={loading} error={error}/>
       </div>
     </div>
   );
