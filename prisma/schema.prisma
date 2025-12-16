@@ -13,7 +13,6 @@ model User {
   username    String    @unique
   password    String
   contents    Content[]
-  // link        Link?
 
   @@map("users")
 }
@@ -29,14 +28,4 @@ model Content {
 
   @@map("contents")
 }
-
-
-// model Link {
-//   id        String @id @default(auto()) @map("_id") @db.ObjectId
-//   hash      String @unique
-//   user      User   @relation(fields: [userId], references: [id])
-//   userId    String @unique @db.ObjectId
-
-//   @@map("links")
-// }
 

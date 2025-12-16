@@ -1,4 +1,4 @@
-import { Deleteicons } from "../icons/deleteicon";
+
 // import { Plusicon } from "../icons/plusicon";
 import { Shareicon } from "../icons/shareicon";
 import { useEffect } from "react";
@@ -28,15 +28,16 @@ export const Card = ({ id, title, link, type }: Cinterface) => {
 
   const handleDelete = async () => {
     try {
+      const payload = JSON.stringify({ id });
       const res = await fetch(`/api/content`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id }),
+        body: payload,
       });
-      console.log(id);
+
       const data = await res.json();
       if (res.ok) {
-       alert("ID deleted") 
+        alert("ID deleted");
       } else {
         alert(data.message || "Failed to delete content");
       }
@@ -57,9 +58,14 @@ export const Card = ({ id, title, link, type }: Cinterface) => {
           <a href={link} target="_blank" rel="noopener noreferrer" className="pr-2 text-gray-500">
             <Shareicon />
           </a>
-            <button onClick={handleDelete} className="pr-2 text-gray-500 hover:text-red-500 border border-red-500">
-               <Deleteicons />
-            </button>
+          <button
+            onClick={() => {
+              // console.log("Delete button clicked, ID:", id);
+              handleDelete();
+            }}
+            className="pr-2 text-gray-500 hover:text-red-500 border border-red-500">
+           DELETE
+          </button>
 
         </div>
       </div>

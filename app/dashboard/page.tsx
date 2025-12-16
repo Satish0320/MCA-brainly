@@ -1,14 +1,10 @@
-// src/app/dashboard/page.tsx
+
 "use client"
 import { useEffect, useState } from "react";
-// import { getServerSession } from "next-auth";
-// import { authOptions } from "../api/auth/[...nextauth]/route";
-// import { redirect } from "next/navigation";
 import { Button } from "../../components/button";
 import { Card } from "../../components/card";
 import { CreateModel } from "../../components/createModel";
 import { Plusicon } from "../../icons/plusicon";
-import { Shareicon } from "../../icons/shareicon";
 import { Sidebar } from "../../components/sidebar";
 import { UseContent } from "../../hooks/useContent";
 import axios from "axios";
@@ -33,34 +29,7 @@ export default function DashboardPage() {
     axios.get<Session>('/api/dashboard').then((response) => setSession(response.data))
   }, []);
 
-  const handleShare = async () => {
-    if (!session || !session.user) {
-      console.error("User session not found");
-      return;
-    }
-
-    try {
-      // Replace axios with fetch for the share request
-      const response = await fetch("/api/brain/share", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${session.accessToken}`, // Using session's accessToken (from NextAuth)
-        },
-        body: JSON.stringify({ share: true }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to share content");
-      }
-
-      const data = await response.json();
-      const url = `/api/brain/share/${data.Hash}`;
-      alert(url);
-    } catch (error) {
-      console.error("Error sharing content:", error);
-    }
-  };
+  
 
   if (!session) {
     return <p>Loading session...</p>;
@@ -83,12 +52,6 @@ export default function DashboardPage() {
             text="Add Content"
             startIcon={<Plusicon />}
           />
-          <Button
-            onClick={handleShare}
-            variant="secondary"
-            text="Share"
-            startIcon={<Shareicon />}
-          />
         </div>
 
         {/* Content Cards Grid */}
@@ -98,8 +61,8 @@ export default function DashboardPage() {
           ) : error ? (
             <p>{error}</p>
           ) : (
-            content.map(({ type, title, link }) => (
-              <Card key={title} type={type} link={link} title={title} />
+            content.map(({ type, title, link, id }) => (
+              <Card key={title} type={type} link={link} title={title} id={id} />
             ))
           )}
         </div>

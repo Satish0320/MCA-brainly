@@ -69,12 +69,15 @@ export async function GET() {
 
 export async function DELETE(req: NextRequest){
   try {
+
     const session = await getServerSession(authOptions);
     if (!session || !session.user) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const { id } = await req.json();
+    const body = await req.json().catch(() => null); // Handle potential parsing issues
+    const id = body?.id;
+
     if (!id) {
       return NextResponse.json({ message: "Content ID is required" }, { status: 400 });
     }

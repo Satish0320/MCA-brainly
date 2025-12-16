@@ -1,4 +1,4 @@
-// src/app/signup/page.tsx
+
 
 "use client";
 
@@ -27,7 +27,7 @@ export default function SignUp() {
 
     if (res.ok) {
       setSuccess("Account created successfully! Redirecting to sign in...");
-       router.push("/signin"); 
+      router.push("/signin"); 
     } else {
       const data = await res.json();
       setError(data.error || "Failed to create account");
